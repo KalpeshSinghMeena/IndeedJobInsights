@@ -41,4 +41,4 @@ This is an open-source project! Contributions, bug reports, and feature requests
 Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
-Built with ❤️ by [Kalpesh Meena](https://github.com/kalpeshsinghhmeena)
+Built with ❤️ by [Kalpesh Meena](https://github.com/kalpeshsinghmeena)
