@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            width: 220px;
+            font-family: -apple-system, system-ui, sans-serif;
+            padding: 15px;
+            margin: 0;
+            background: #fff;
+        }
+
+        h2 {
+            font-size: 16px;
+            margin: 0 0 15px 0;
+            color: #2557a7;
+            text-align: center;
+        }
+
+        .box {
+            background: #f0f4f9;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #e1e8f0;
+        }
+
+        .label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #334155;
+            display: block;
+            text-align: center;
+        }
+
+        .btn {
+            width: 100%;
+            border: none;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-reset {
+            background: #fee2e2;
+            color: #dc2626;
+            margin-top: 5px;
+        }
+
+        .btn-reset:hover {
+            background: #fecaca;
+        }
+
+        .status {
+            font-size: 10px;
+            text-align: center;
+            margin-top: 10px;
+            color: #64748b;
+            font-style: italic;
+        }
+
+        .saved {
+            color: #16a34a;
+            font-size: 11px;
+            text-align: center;
+            margin-top: 8px;
+            font-weight: bold;
+            display: none;
+        }
+
+        footer {
+            font-size: 9px;
+            color: #94a3b8;
+            text-align: center;
+            margin-top: 15px;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Indeed Insight v1.28</h2>
+
+    <div class="box">
+        <span class="label">Settings</span>
+        <button class="btn btn-reset" id="resetBtn">Reset Blocked Employers</button>
+    </div>
+
+    <div id="status" class="status"></div>
+    <div class="saved" id="savedMsg">✓ List Cleared</div>
+
+    <footer>
+        Open Source Version 🚀
+    </footer>
+
+    <script>
+        const reset = document.getElementById('resetBtn');
+        const saved = document.getElementById('savedMsg');
+        const status = document.getElementById('status');
+
+        function updateCount() {
+            chrome.storage.local.get(['blockedEmployers'], (res) => {
+                const count = res.blockedEmployers ? res.blockedEmployers.length : 0;
+                status.textContent = `${count} employers currently blocked`;
+            });
+        }
+
+        updateCount();
+
+        reset.addEventListener('click', () => {
+            if (confirm('Unblock all employers?')) {
+                chrome.storage.local.set({ blockedEmployers: [] }, () => {
+                    updateCount();
+                    saved.style.display = 'block';
+                    setTimeout(() => saved.style.display = 'none', 1500);
+                });
+            }
+        });
+
+        // Refresh count if changed while popup is open
+        chrome.storage.onChanged.addListener(() => updateCount());
+    </script>
+</body>
+
+</html>
