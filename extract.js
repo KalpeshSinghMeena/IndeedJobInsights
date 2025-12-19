@@ -1,5 +1,5 @@
 (function () {
-    const VERSION = "1.27-WIRE";
+    const VERSION = "1.28-HUB";
     console.log(`[Indeed Insight] Extractor ${VERSION} initialized`);
 
     let knownJobs = new Map();
